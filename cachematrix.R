@@ -34,12 +34,25 @@ makeCacheMatrix <- function( x = matrix() ){
 ##It will retrieve the inverse from cache
 cacheSolve <- function(x, ...) {
         ##Get the inverse if at all it exists
-        inverse <- x$calculateInverse()
+        ## The first we call, this is going to be NULL
+        matrix_inverse <- x$returnInverse()
         
-        ##If we found the inverse, we return it, else we go calculate it
-        if(!is.null(inverse) && is.matrix(inverse)){
-                message("Retrieving the inverse from cache")
-                return(inverse)
+        ##If we found the inverse from cache, we return it
+        if(!is.null(matrix_inverse)){
+                message("Retrieving the cached inverse")
+                return(matrix_inverse)
         }
         
+        ## If matrix_inverse is NULL, i.e. we did not find the inverse in cache, 
+        ## get the "Matrix" so we calculate its inverse
+        matrx <- x$callMatrix()
+        
+        ##calculate the Inverse
+        matrix_inverse <- solve(matrx)
+        
+        ##cache the inverse, so we don't calculate the next time we get the same matrix
+        x$cacheInverse(matrix_inverse)
+        
+        ##return the inverse
+        matrix_inverse
 }
