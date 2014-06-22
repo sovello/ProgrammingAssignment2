@@ -30,10 +30,8 @@ makeCacheMatrix <- function( x = matrix() ){
 }
 
 
-##This function will compute the inverse of the special "matrix" 
-##returned by makeCacheMatrix. 
-##If the inverse is already calculated and the matrix has not changed
-##then cacheSolve retrieve the inverse from the cache.
+##This function will compute the inverse of the "matrix" from makeCacheMatrix if not found in cache, otherwise
+##It will retrieve the inverse from cache
 cacheSolve <- function(x, ...) {
         ##Get the inverse if at all it exists
         inverse <- x$calculateInverse()
