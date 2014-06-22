@@ -3,23 +3,19 @@
 
 ## Write a short comment describing this function
 ##This is a function that creates a special "matrix" object that can cache its inverse.
-makeCacheMatrix <- function(x = matrix()) {
+
+makeCacheMatrix <- function( x = matrix() ){
         ##Initialize the inverse of this matrix to NULL (for memory concerns here)
         matrixInverse <- NULL
         
-        ##this function will make available the matrix to other methods 
-        getMatrix(){
-                x
-        }
-        ##Defining a function to calculate the inverse
+        ##Calculate the inverse of the matrix
         calculateInverse <- function(){
                 matrixInverse <<- solve(x)
-        }
-        
-        ##This function is used to return the value of the inverse
-        getInverse <- function(){
                 matrixInverse
         }
+        
+        ##return a list which contains the inverse of the matrix we calculated
+        list(calculateInverse = calculateInverse)
 }
 
 
@@ -29,22 +25,18 @@ makeCacheMatrix <- function(x = matrix()) {
 ##then cacheSolve retrieve the inverse from the cache.
 cacheSolve <- function(x, ...) {
         ##Get the inverse if at all it exists
-        inverse <- x$getInverse()
+        ##inverse <- x$getInverse()
+        inverse <- x$calculateInverse()
         
         ##If we found the inverse, we return it, else we go calculate it
-        if(!is.null(inverse)){
+        if(!is.null(inverse) && is.matrix(inverse)){
                 message("Retrieving the cached inverse")
                 return(inverse)
         }
         
-        ##We didn't find any cached value for the matrix, so we have to solve it now
-        ##Get the matrix using the get method
-        theMatrix <- x$getMatrix
-        
         ##calculate the inverse
-        inverse <- solve(theMatrix, ...)
-        x$calculateInverse()
+        inverse <- solve(x)
         
-        ##Finally we return the inverse
+        ##Finally we return the calculated inverse
         inverse
 }
