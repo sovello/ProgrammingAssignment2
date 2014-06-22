@@ -26,7 +26,7 @@ makeCacheMatrix <- function( x = matrix() ){
         
         ##a list can hold a number of things within it, therefore let's use list
         ##return a list which contains the inverse of the matrix we calculated
-        list(callMatrix = callMatrix, returnInverse = returnInverse, callMatrix = callMatrix)
+        list(callMatrix = callMatrix, returnInverse = returnInverse, cacheInverse = cacheInverse)
 }
 
 
