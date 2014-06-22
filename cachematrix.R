@@ -7,21 +7,22 @@ makeCacheMatrix <- function(x = matrix()) {
         ##Initialize the inverse of this matrix to NULL (for memory concerns here)
         matrixInverse <- NULL
         
-        ##This function is used to access the matrix we are working with
-        
-        ##Defining a function to get inverse
+        ##this function will make available the matrix to other methods 
+        getMatrix(){
+                x
+        }
+        ##Defining a function to calculate the inverse
         calculateInverse <- function(){
                 matrixInverse <<- solve(x)
         }
         
-        ##This function is used to return the value of the mean
+        ##This function is used to return the value of the inverse
         getInverse <- function(){
                 matrixInverse
         }
 }
 
 
-## Write a short comment describing this function
 ##This function will compute the inverse of the special "matrix" 
 ##returned by makeCacheMatrix. 
 ##If the inverse is already calculated and the matrix has not changed
@@ -36,6 +37,14 @@ cacheSolve <- function(x, ...) {
                 return(inverse)
         }
         
-        theMatrix <- x$get
+        ##We didn't find any cached value for the matrix, so we have to solve it now
+        ##Get the matrix using the get method
+        theMatrix <- x$getMatrix
         
+        ##calculate the inverse
+        inverse <- solve(theMatrix, ...)
+        x$calculateInverse()
+        
+        ##Finally we return the inverse
+        inverse
 }
